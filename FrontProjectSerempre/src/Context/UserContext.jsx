@@ -10,7 +10,7 @@ export const UsersProvider = ({children}) => {
     
 
     //Get information from api/hook
-    const [users] = useFetchUsers("http://127.0.0.1:8000/users/");
+    const [users] = useFetchUsers(`${import.meta.env.VITE_BACK_URL}users/`);
     
     
     //Post info api

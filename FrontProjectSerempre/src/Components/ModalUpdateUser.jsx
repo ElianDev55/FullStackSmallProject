@@ -3,7 +3,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import {Input} from "@nextui-org/react";
 import { TokenContext } from '../Context/TokenContext';
 import { UsersContext } from '../Context/UserContext';
-
+import {Toaster} from 'sonner';
 
 export  const ModalUpdateUser = () => {
     
@@ -27,7 +27,6 @@ export  const ModalUpdateUser = () => {
   });
 
 
-console.log(formData);
 
 const handleFormSubmit = async (event) => {
   event.preventDefault();
@@ -36,18 +35,18 @@ const handleFormSubmit = async (event) => {
     email: email,
     password: password,
     jobtitle: jobtitle,
+    is_active: true,  // Agregado
+    is_staff: false,  // Agregado
   }, user.id);
 };
-
-
   
 
 
-
+const url = `${import.meta.env.VITE_BACK_URL}auth/me`;
 
 
   useEffect(() => {
-    fetch('http://localhost:8000/users/me', {  // Reemplaza esto con la URL de tu API
+    fetch(url, {  // Reemplaza esto con la URL de tu API
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -62,7 +61,7 @@ const handleFormSubmit = async (event) => {
       setUser(data);
       setName(data.name);
       setEmail(data.email);
-      setPassword(data.password);
+      setPassword("");
       setJobtitle(data.jobtitle);
     })
     .catch(error => {
@@ -82,6 +81,7 @@ const handleFormSubmit = async (event) => {
     return (
 
         <>
+        <Toaster position="top-center" expand={false}  richColors />
           <Button color="primary" onPress={onOpen}>Actualizar</Button>
           <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>

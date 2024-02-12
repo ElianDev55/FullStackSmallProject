@@ -2,6 +2,8 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import { FaRegSquarePlus } from "react-icons/fa6";
 import { useContext, useState } from "react";
 import { UsersContext } from "../Context/UserContext";
+import {Toaster, toast} from 'sonner';
+
 
 export const ModalPostPerfil = () => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -25,6 +27,7 @@ export const ModalPostPerfil = () => {
 
     return (
         <>
+          <Toaster position="top-center" expand={false}  richColors />
           <Button 
             onPress={onOpen} 
             className="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center"

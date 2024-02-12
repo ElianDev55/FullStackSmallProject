@@ -10,6 +10,8 @@ import ProtectedRoute from './ProtectedRoute'; // Asegúrate de importar Protect
 const App = () => {
   const [token, setToken] = useState(null);
 
+
+
   return (
     <TokenContext.Provider value={{ token, setToken }}>
       <UsersProvider>

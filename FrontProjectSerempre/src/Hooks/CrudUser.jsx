@@ -1,7 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { TokenContext } from  '../Context/TokenContext' ; // Importa el TokenContext
+import {Toaster, toast} from 'sonner';
 
+const url = `${import.meta.env.VITE_BACK_URL}users`;
 
 const useFetchUsers = (url) => {
     const [users, setUsers] = useState([]);
@@ -32,7 +34,7 @@ const useFetchUsers = (url) => {
       setLoading(true);
   
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/users/${userId}`);
+        const response = await axios.get(`${url}${userId}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
@@ -61,15 +63,17 @@ const useSendDataUsers = () => {
       setSent(true);
   
       try {
-        await axios.post("http://127.0.0.1:8000/users/", data, {
+        await axios.post(`${url}/`, data, {
           headers: { Authorization: `Bearer ${token}` } // Agrega el token al header de la solicitud
         });
         
         setSent(false);
+        toast.success('Usuario creado con éxito')
+
       
       } catch (error) {
         setSent(false);
-        console.error('Hubo un problema al enviar los datos a la API:', error);
+        toast.error('Error al crear el usuario')
       }
       
     };
@@ -78,7 +82,6 @@ const useSendDataUsers = () => {
       handleSubmit,
     };
 };
-
   
 const usePutUsers = () => {
   const [updated, setUpdated] = useState(false);
@@ -93,17 +96,18 @@ const usePutUsers = () => {
 
     setUpdated(true);
 
-
-
     try {
-      await axios.put(`http://127.0.0.1:8000/users/${userId}/`, updatedData, {
+      await axios.put(`${url}/${userId}/`, updatedData, {
         headers: { Authorization: `Bearer ${token}` } // Agrega el token al header de la solicitud
       });
 
+
       setUpdated(false);
+      toast.success('Usuario actualizado con éxito')
+
     } catch (error) {
       setUpdated(false);
-      console.error('Hubo un problema al actualizar los datos del video:', error);
+      toast.error('Error al actualizar el usuario')
     }
   };
 
@@ -124,10 +128,12 @@ const useDeleteUsers = () => {
     setDeleted(true);
     
     try {
-      await axios.delete(`http://127.0.0.1:8000/users/${userId}`, {
+      await axios.delete(`${url}/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setDeleted(false);
+      toast.success('Usuario eliminado con éxito')
+      window.location.reload();
     } catch (error) {
       setDeleted(false);
       console.error('Hubo un problema al eliminar el usurip:', error);
