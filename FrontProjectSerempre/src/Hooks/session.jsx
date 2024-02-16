@@ -16,7 +16,7 @@ export const useSession = (setToken) => {
             .then(response => {
                 if (response.data.access) { // Si el token de acceso está presente
                     setToken(response.data.access);
-                    navigate('/another-view');
+                    navigate('/Home');
                 } 
                 console.log(response.status);
             })
