@@ -5,6 +5,7 @@ import { ModalUpdateUser } from '../Components/ModalUpdateUser';
 import { ModalPostPerfil } from '../Components/ModalPostPerfil';
 import { Toaster, toast } from 'sonner';
 
+
 export const Perfil = () => {
   const {handleDelete} = useDeleteUsers();
   const [user, setUser] = useState(null);

@@ -1,16 +1,21 @@
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ReportsContext} from "../Context/ReportContext";
 import {Toaster, toast} from 'sonner';
 import { FaPlus } from "react-icons/fa";
+import { TokenContext } from '../Context/TokenContext';
 
 export const ModalPostReport = () => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const { token } = useContext(TokenContext);
     const { sendReportsData} = useContext(ReportsContext);
+    const url = `${import.meta.env.VITE_BACK_URL}auth/me`;
+    const [user, setUser] = useState(null);
     
     const [formData, setFormData] = useState({
         "title": "",
-        "edit": null
+        "edit": null,
+        "id_user": user ? user.id : null // Cambia userId a id_user
     });
 
     const handleInputChange = (e) => {
@@ -26,8 +31,40 @@ export const ModalPostReport = () => {
       const data = new FormData();
       data.append('title', formData.title);
       data.append('edit', formData.edit);
+      data.append('id_user', formData.id_user); // Cambia userId a id_user al enviar los datos del formulario
       await sendReportsData(data);
     };
+
+    useEffect(() => {
+      fetch(url, {  
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al obtener los datos del usuario');
+        }
+        return response.json();
+      })
+      .then(data => {
+        toast.success('Bienvenido a tu perfil!')
+        setUser(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }, [token]);
+
+    useEffect(() => {
+        setFormData(prevState => ({ ...prevState, id_user: user ? user.id : null })); // Actualiza id_user en formData cuando user cambie
+    }, [user]);
+
+    if (!user) {
+      return <div>Cargando...</div>;
+    }
+
+    console.log(user.name);
 
     return (
         <>

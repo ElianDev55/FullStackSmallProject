@@ -1,12 +1,15 @@
 from rest_framework import serializers
 from .models import Report
+from apps.users.serializers import UserSerializer
 
 class ReportSerializer(serializers.ModelSerializer):
     edit_url = serializers.SerializerMethodField()
+    user = UserSerializer(source='id_user', read_only=True)
 
     class Meta:
+
         model = Report
-        fields = ('idreport', 'title', 'date', 'edit', 'edit_url')
+        fields = '__all__'
 
     def get_edit_url(self, obj):
         request = self.context.get('request')

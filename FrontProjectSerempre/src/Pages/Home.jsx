@@ -15,10 +15,11 @@ export const Home = () => {
     const reports = context.reports;
 
     const columns = [
-        { name: 'Title', uid: 'title' },
-        { name: 'Date', uid: 'date' },
-        { name: 'Format', uid: 'edit' },
-        { name: 'Actions', uid: 'actions' },
+        { name: 'Titulo', uid: 'title' },
+        { name: 'Fecha', uid: 'date' },
+        { name: 'Archivos', uid: 'edit' },
+        { name: 'Empleado', uid: 'employee' }, // Nueva columna
+        { name: 'Acciones', uid: 'actions' },
     ];
 
     const deltereport = (idreport) => {
@@ -59,6 +60,8 @@ export const Home = () => {
                 }
             case "date":
                 return formatDate(cellValue);
+            case "employee":
+                return report.user.name; // Retorna el nombre del empleado
             case "actions":
                 return (
                     <div className="relative flex items-center gap-2">
