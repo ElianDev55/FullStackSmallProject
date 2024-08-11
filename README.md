@@ -1,2 +1,2 @@
 # FullStackSmallProject
-# FullStackSmallProject
+# React and FastApi
